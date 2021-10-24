@@ -1,0 +1,6 @@
+parameters:
+  level: max
+  tmpDir: tmp/cache
+  paths:
+    - src
+    - tests
