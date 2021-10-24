@@ -5,8 +5,10 @@ use Doctrine\DBAL\Configuration as DoctrineConfiguration;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\DriverManager;
 use Laminas\Config\Config;
+use Nyholm\Psr7\Factory\Psr17Factory;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseFactoryInterface;
+use Psr\Http\Message\ServerRequestFactoryInterface;
 use Selective\BasePath\BasePathMiddleware;
 use Slim\App;
 use Slim\Factory\AppFactory;
@@ -42,6 +44,10 @@ return [
 
     BasePathMiddleware::class => function (ContainerInterface $container) {
         return new BasePathMiddleware($container->get(App::class));
+    },
+
+    ServerRequestFactoryInterface::class => function (ContainerInterface $container) {
+        return $container->get(Psr17Factory::class);
     },
 
     ResponseFactoryInterface::class => function (ContainerInterface $container) {
@@ -87,6 +93,7 @@ return [
     },
 
     PDO::class => function (ContainerInterface $container) {
-        return $container->get(Connection::class)->getWrappedConnection();
+        $connection = $container->get(Connection::class)->getWrappedConnection();
+        return $connection instanceof Doctrine\DBAL\Driver\PDO\Connection ? $connection->getWrappedConnection() : null;
     },
 ];

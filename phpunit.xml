@@ -4,6 +4,12 @@
          colors="true"
          backupGlobals="false"
          backupStaticAttributes="false"
+         convertErrorsToExceptions="true"
+         convertNoticesToExceptions="true"
+         convertWarningsToExceptions="true"
+         stopOnFailure="true"
+         cacheResult="true"
+         cacheResultFile="./tmp/.phpunit.result.cache"
          xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.5/phpunit.xsd">
     <coverage processUncoveredFiles="true">
         <include>
@@ -12,10 +18,10 @@
     </coverage>
     <testsuites>
         <testsuite name="Unit Tests">
-            <directory suffix="Test.php">tests/Unit</directory>
+            <directory suffix="Test.php">tests/TestCase/Unit</directory>
         </testsuite>
         <testsuite name="Functional Tests">
-            <directory suffix="Test.php">tests/Functional</directory>
+            <directory suffix="Test.php">tests/TestCase/Functional</directory>
         </testsuite>
     </testsuites>
     <php>
