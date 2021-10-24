@@ -44,33 +44,16 @@ $settings['logger'] = [
     'file_permission' => 0775,
 ];
 
-// Phoenix settings
-$settings['phoenix'] = [
-    'migration_dirs' => [
-        'first' => __DIR__ . '/../migrations',
-    ],
-    'environments' => [
-        'local' => [
-            'adapter' => 'pgsql',
-            'host' => '127.0.0.1',
-            'port' => 3306,
-            'username' => 'root',
-            'password' => '',
-            'db_name' => 'slim_skeleton_dev',
-            'charset' => 'utf8',
-        ],
-    ],
-    'default_environment' => 'local',
-    'log_table_name' => 'phoenix_log',
+$settings['commands'] = [
 ];
 
 // Database settings
 $settings['db'] = [
     'driver' => 'pdo_pgsql',
-    'host' => 'localhost',
-    'dbname' => 'test',
-    'user' => 'root',
-    'password' => '',
+    'host' => 'postgres',
+    'dbname' => 'php_challenge',
+    'user' => 'postgres',
+    'password' => 'postgres',
     'driverOptions' => [
         // Turn off persistent connections
         PDO::ATTR_PERSISTENT => false,
@@ -81,6 +64,20 @@ $settings['db'] = [
         // Set default fetch mode to array
         PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC,
     ],
+];
+
+$settings['migrations'] = [
+    'table_storage' => [
+        'table_name' => 'migrations',
+    ],
+    'migrations_paths' => [
+        'PhpChallenge\Migrations' => $settings['root'] . '/migrations',
+    ],
+
+    'all_or_nothing' => true,
+    'transactional' => true,
+    'check_database_platform' => true,
+    'organize_migrations' => 'year',
 ];
 
 // Template settings
