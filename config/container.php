@@ -16,6 +16,8 @@ use Slim\Middleware\ErrorMiddleware;
 use Slim\Views\PhpRenderer;
 use Symfony\Component\Console\Application as ConsoleApplication;
 
+use function DI\autowire;
+
 return [
     Config::class => function () {
         return new Config(require __DIR__ . '/settings.php');
@@ -96,4 +98,6 @@ return [
         $connection = $container->get(Connection::class)->getWrappedConnection();
         return $connection instanceof Doctrine\DBAL\Driver\PDO\Connection ? $connection->getWrappedConnection() : null;
     },
+
+    'PhpChallenge\Domain\*\*Repository' => autowire('PhpChallenge\Infra\Database\Repository\*\*DbalRepository'),
 ];
