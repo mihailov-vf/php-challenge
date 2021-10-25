@@ -21,7 +21,13 @@ class CreateUserAction
         ResponseInterface $response,
     ): ResponseInterface {
         $createUserData = new CreateNewUserData((array)$request->getParsedBody());
-        $createdUser = $this->createUserService->execute($createUserData);
+        $createdUser = $this->createUserService->execute($createUserData)->filter(
+            'id',
+            'email',
+            'name',
+            'created_at',
+        );
+
         $response->getBody()->write(json_encode($createdUser) ?: '');
         return $response->withHeader('Content-type', 'application/json')
             ->withStatus(StatusCodeInterface::STATUS_CREATED);

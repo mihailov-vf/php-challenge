@@ -47,7 +47,9 @@ class CreateUserTest extends TestCase
         $createdUser = $this->createUserService->execute($userData);
 
         $this->assertInstanceOf(CreatedUserData::class, $createdUser);
+        $this->assertObjectHasAttribute('id', $createdUser);
         $this->assertEquals('Jane Doe', $createdUser->name);
         $this->assertEquals('mail@example.com', $createdUser->email);
+        $this->assertTrue(password_verify('12345678', $createdUser->password));
     }
 }

@@ -12,8 +12,9 @@ use PhpChallenge\Domain\User\UserRepository;
 
 class CreateUser
 {
-    public function __construct(private UserRepository $userRepository)
-    {
+    public function __construct(
+        private UserRepository $userRepository
+    ) {
     }
 
     public function execute(CreateNewUserData $userData): CreatedUserData
@@ -21,6 +22,7 @@ class CreateUser
         if ($this->userRepository->checkUserEmailExists($userData->email)) {
             throw new DomainException('User already exists');
         }
+        $userData->password = password_hash($userData->password, PASSWORD_DEFAULT);
         $user = User::createNewFromData($userData);
         $this->userRepository->createUser($user);
 
