@@ -21,7 +21,7 @@ final class ContainerFactory
         $containerBuilder = new ContainerBuilder();
 
         // Set up settings
-        $containerBuilder->addDefinitions(dirname(__DIR__) . '/config/container.php');
+        $containerBuilder->addDefinitions(dirname(__DIR__) . '/config/container.test.php');
 
         // Build PHP-DI Container instance
         return $containerBuilder->build();

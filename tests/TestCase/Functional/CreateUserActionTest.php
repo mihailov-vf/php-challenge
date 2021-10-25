@@ -6,19 +6,20 @@ namespace PhpChallenge\Tests\TestCase\Functional;
 
 use PhpChallenge\Tests\Traits\AppTestTrait;
 use Fig\Http\Message\StatusCodeInterface;
+use PhpChallenge\Tests\Traits\DbalDatabaseTestTrait;
 use PHPUnit\Framework\TestCase;
-// use Selective\TestTrait\Traits\DatabaseTestTrait;
 
 class CreateUserActionTest extends TestCase
 {
     use AppTestTrait;
-    // use DatabaseTestTrait;
+    use DbalDatabaseTestTrait;
 
     /** 
      * @test
      */
     public function itShouldCreateUser(): void
     {
+        $this->truncate('users');
         $request = $this->createJsonRequest(
             'POST',
             '/api/users',
@@ -38,22 +39,30 @@ class CreateUserActionTest extends TestCase
         $this->assertArrayHasKey('id', $responsePayload);
         $this->assertNotEmpty($responsePayload['id']);
 
-        // TODO: Correct Database access
-        // $this->assertTableRowCount(1, 'users');
+        $this->assertTableRowCount(1, 'users');
+        $this->assertTableRowExists('users', $responsePayload['id']);
+    }
 
-        // $expected = [
-        //     'username' => 'admin',
-        //     'email' => 'mail@example.com',
-        //     'first_name' => 'Sally',
-        //     'last_name' => 'Doe',
-        //     'locale' => 'de_DE',
-        //     'timezone' => 'America/Sao_Paulo',
-        //     'enabled' => '1',
-        // ];
+    /** @test */
+    public function itShouldNotCreateUserOnDuplicatedEmail(): void
+    {
+        $this->truncate('users');
+        $request = $this->createJsonRequest(
+            'POST',
+            '/api/users',
+            [
+                'name' => 'Jane Doe',
+                'email' => 'mail@example.com',
+                'password' => '12345678',
+            ]
+        );
 
-        // $this->assertTableRow($expected, 'users', $responsePayload['id']);
+        $response = $this->app->handle($request);
+        $response = $this->app->handle($request);
+        $this->assertSame(StatusCodeInterface::STATUS_BAD_REQUEST, $response->getStatusCode());
+        $this->assertJsonContentType($response);
 
-        // TODO: Compare password Hash
-        // $password = $this->getTableRowById('users', $responsePayload['id'])['password'];
+        $responsePayload = $this->getJsonData($response);
+        $this->assertJsonValue('User already exists', 'error', $response);
     }
 }

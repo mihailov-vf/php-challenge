@@ -7,12 +7,13 @@ use Doctrine\Migrations\Configuration\Migration\ConfigurationArray;
 use Doctrine\Migrations\DependencyFactory;
 use Doctrine\Migrations\Tools\Console\ConsoleRunner;
 
-require_once __DIR__ . '/../vendor/autoload.php';
+require_once dirname(__DIR__) . '/vendor/autoload.php';
 
 $containerBuilder = new ContainerBuilder();
+$containerName = !empty($_ENV['TEST']) ? '.test' : '';
 
 // Set up settings
-$containerBuilder->addDefinitions(__DIR__ . '/../config/container.php');
+$containerBuilder->addDefinitions(dirname(__DIR__) . "/config/container{$containerName}.php");
 $containerBuilder->useAnnotations(true);
 // Build PHP-DI Container instance
 $container = $containerBuilder->build();

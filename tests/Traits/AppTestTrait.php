@@ -38,5 +38,8 @@ trait AppTestTrait
         $this->app = $container->get(App::class);
 
         $this->setUpContainer($container);
+        if (method_exists($this, 'setUpDatabase')) {
+            $this->setUpDatabase();
+        }
     }
 }

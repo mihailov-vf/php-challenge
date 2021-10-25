@@ -48,12 +48,16 @@
         }
     },
     "scripts": {
+        "migration": [
+            "@migration:dev",
+            "@migration:test"
+        ],
+        "migration:dev": "php bin/migrations.php migrate -n",
+        "migration:test": "TEST=1 php bin/migrations.php migrate -n",
         "serve": "php -S localhost:8080 -t public/",
-        "phoenix": "phoenix --ansi",
-        "stan": "phpstan analyse -c phpstan.neon --no-progress --ansi",
-        "schema:dump": "php bin/console.php schema-dump --ansi",
         "sniffer:check": "phpcs --standard=phpcs.xml",
         "sniffer:fix": "phpcbf --standard=phpcs.xml",
+        "stan": "phpstan analyse -c phpstan.neon --no-progress --ansi",
         "test": "phpunit --colors=always --testdox",
         "test:coverage": "XDEBUG_MODE=coverage phpunit --colors=always --coverage-clover coverage/logs/clover.xml --coverage-html coverage"
     }
