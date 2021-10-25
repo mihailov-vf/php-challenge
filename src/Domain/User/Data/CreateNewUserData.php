@@ -10,7 +10,7 @@ class CreateNewUserData
     public string $email;
     public string $name;
     public string $password;
-    
+
     /**
      * @param array<string, mixed> $data
      */

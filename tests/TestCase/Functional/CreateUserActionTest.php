@@ -14,7 +14,7 @@ class CreateUserActionTest extends TestCase
     use AppTestTrait;
     use DbalDatabaseTestTrait;
 
-    /** 
+    /**
      * @test
      */
     public function itShouldCreateUser(): void

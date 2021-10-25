@@ -64,7 +64,7 @@ trait DbalDatabaseTestTrait
         return $this->getConnection()->prepare($sql);
     }
 
-    /** 
+    /**
      * @param array<string, mixed> $expectedRow
      * @param string[] $fields
      */

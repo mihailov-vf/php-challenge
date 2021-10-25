@@ -20,7 +20,15 @@ class CreatedUserData
     public bool $enabled;
 
     /**
-     * @param array{id:string, email:string, name:string, password:string, token:string, created_at:\DateTimeImmutable, enabled:bool} $data
+     * @param array{
+     *  id:string,
+     *  email:string,
+     *  name:string,
+     *  password:string,
+     *  token:string,
+     *  created_at:\DateTimeImmutable,
+     *  enabled:bool
+     * } $data
      */
     public function __construct(array $data)
     {
