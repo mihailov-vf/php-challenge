@@ -16,6 +16,8 @@ class User extends Entity
     private string $name;
     private string $password;
     private AccessToken $token;
+    /** @var string[] */
+    private array $roles;
     private DateTimeImmutable $createdAt;
     private bool $enabled = true;
 
@@ -36,12 +38,14 @@ class User extends Entity
         return $user;
     }
 
-    public function __construct(string $id, string $email, string $name, string $password)
+    /** @var string[] $roles */
+    public function __construct(string $id, string $email, string $name, string $password, array $roles = ['USER'])
     {
         parent::__construct($id);
         $this->email = $email;
         $this->name = $name;
         $this->password = $password;
+        $this->roles = $roles;
     }
 
     public function getEmail(): string
@@ -62,6 +66,11 @@ class User extends Entity
     public function getToken(): AccessToken
     {
         return $this->token;
+    }
+
+    public function getRoles(): iterable
+    {
+        return $this->roles;
     }
 
     public function getCreatedAt(): DateTimeImmutable
