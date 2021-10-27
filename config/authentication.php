@@ -9,7 +9,13 @@ return [
     'access_token_expire'  => 'P1D',
     'refresh_token_expire' => 'P1M',
     'auth_code_expire'     => 'PT10M',
-    'pdo' => PDO::class,
+    'pdo' => [
+        'table' => 'users',
+        'field' => [
+            'identity' => 'id',
+        ],
+        'service' => PDO::class,
+    ],
 
     // Set value to null to disable a grant
     'grants' => [

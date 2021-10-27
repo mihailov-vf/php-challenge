@@ -10,14 +10,13 @@ use League\OAuth2\Server\ResourceServer;
 use Mezzio\Authentication\AuthenticationInterface;
 use Mezzio\Authentication\AuthenticationMiddleware;
 use Mezzio\Authentication\AuthenticationMiddlewareFactory;
-use Mezzio\Authentication\DefaultUserFactory;
 use Mezzio\Authentication\OAuth2\OAuth2Adapter;
 use Mezzio\Authentication\OAuth2\Repository\Pdo\AccessTokenRepositoryFactory;
 use Mezzio\Authentication\OAuth2\Repository\Pdo\PdoService;
-use Mezzio\Authentication\OAuth2\Repository\Pdo\PdoServiceFactory;
 use Mezzio\Authentication\OAuth2\ResourceServerFactory;
 use Mezzio\Authentication\UserInterface;
 use Nyholm\Psr7\Factory\Psr17Factory;
+use PhpChallenge\Infra\Auth\AuthUserFactory;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseFactoryInterface;
 use Psr\Http\Message\ServerRequestFactoryInterface;
@@ -43,8 +42,8 @@ return [
         return $container->get(Config::class)->get(str_replace('settings.', '', $entry->getName()));
     },
 
-    UserInterface::class => factory(DefaultUserFactory::class),
-    PdoService::class => factory(PdoServiceFactory::class),
+    UserInterface::class => factory(AuthUserFactory::class),
+    PdoService::class => get(PDO::class),
     AccessTokenRepositoryInterface::class => factory(AccessTokenRepositoryFactory::class),
     ResourceServer::class => factory(ResourceServerFactory::class),
     AuthenticationInterface::class => function (ContainerInterface $container) {
@@ -53,7 +52,7 @@ return [
             function () use ($container) {
                 return $container->get(ResponseFactoryInterface::class)->createResponse();
             },
-            $container->get(DefaultUserFactory::class)
+            $container->get(AuthUserFactory::class)
         );
     },
     AuthenticationMiddleware::class => factory(AuthenticationMiddlewareFactory::class),

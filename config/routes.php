@@ -31,9 +31,15 @@ return function (App $app) {
             return $response;
         })->setName('api_login');
 
-        $api->map([''], '/import[/]', function (ServerRequestInterface $request, ResponseInterface $response): ResponseInterface {
-            $response->getBody()->write('import');
-            return $response;
+        $api->group('/import', function (RouteCollectorProxy $import) {
+            $import->map(['POST', 'PUSH'], '[/]', function (ServerRequestInterface $request, ResponseInterface $response): ResponseInterface {
+                $response->getBody()->write('import');
+                return $response;
+            })->setName('import');
+            $import->get('/{id}', function (ServerRequestInterface $request, ResponseInterface $response): ResponseInterface {
+                $response->getBody()->write('import_status');
+                return $response;
+            })->setName('import_status');
         })->add(AuthenticationMiddleware::class);
     });
 };
