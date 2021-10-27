@@ -5,6 +5,18 @@ use Doctrine\DBAL\Configuration as DoctrineConfiguration;
 use Doctrine\DBAL\Connection;
 use Doctrine\DBAL\DriverManager;
 use Laminas\Config\Config;
+use League\OAuth2\Server\Repositories\AccessTokenRepositoryInterface;
+use League\OAuth2\Server\ResourceServer;
+use Mezzio\Authentication\AuthenticationInterface;
+use Mezzio\Authentication\AuthenticationMiddleware;
+use Mezzio\Authentication\AuthenticationMiddlewareFactory;
+use Mezzio\Authentication\DefaultUserFactory;
+use Mezzio\Authentication\OAuth2\OAuth2Adapter;
+use Mezzio\Authentication\OAuth2\Repository\Pdo\AccessTokenRepositoryFactory;
+use Mezzio\Authentication\OAuth2\Repository\Pdo\PdoService;
+use Mezzio\Authentication\OAuth2\Repository\Pdo\PdoServiceFactory;
+use Mezzio\Authentication\OAuth2\ResourceServerFactory;
+use Mezzio\Authentication\UserInterface;
 use Nyholm\Psr7\Factory\Psr17Factory;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseFactoryInterface;
@@ -17,18 +29,34 @@ use Slim\Views\PhpRenderer;
 use Symfony\Component\Console\Application as ConsoleApplication;
 
 use function DI\autowire;
+use function DI\factory;
+use function DI\get;
 
 return [
     Config::class => function () {
         return new Config(require __DIR__ . '/settings.php');
     },
 
-    'settings' => function (RequestedEntry $entry, ContainerInterface $container) {
-        return $container->get(Config::class);
-    },
+    'config' => get(Config::class),
+    'settings' => get(Config::class),
     'settings.*' => function (RequestedEntry $entry, ContainerInterface $container) {
         return $container->get(Config::class)->get(str_replace('settings.', '', $entry->getName()));
     },
+
+    UserInterface::class => factory(DefaultUserFactory::class),
+    PdoService::class => factory(PdoServiceFactory::class),
+    AccessTokenRepositoryInterface::class => factory(AccessTokenRepositoryFactory::class),
+    ResourceServer::class => factory(ResourceServerFactory::class),
+    AuthenticationInterface::class => function (ContainerInterface $container) {
+        return new OAuth2Adapter(
+            $container->get(ResourceServer::class),
+            function () use ($container) {
+                return $container->get(ResponseFactoryInterface::class)->createResponse();
+            },
+            $container->get(DefaultUserFactory::class)
+        );
+    },
+    AuthenticationMiddleware::class => factory(AuthenticationMiddlewareFactory::class),
 
     App::class => function (ContainerInterface $container) {
         AppFactory::setContainer($container);
@@ -58,7 +86,7 @@ return [
 
     ErrorMiddleware::class => function (ContainerInterface $container) {
         $app = $container->get(App::class);
-        $settings = $container->get('settings')['error'];
+        $settings = $container->get('settings.error');
 
         return new ErrorMiddleware(
             $app->getCallableResolver(),

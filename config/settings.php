@@ -20,6 +20,9 @@ $settings['template'] = $settings['root'] . '/templates';
 $settings['resources'] = $settings['root'] . '/resources';
 $settings['swagger'] = $settings['resources'] . '/swagger/v1.yaml';
 
+// Authentication settings
+$settings['authentication'] = require 'authentication.php';
+
 // Error Handling Middleware settings
 $settings['error'] = [
 

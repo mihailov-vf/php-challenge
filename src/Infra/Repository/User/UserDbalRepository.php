@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace PhpChallenge\Infra\Database\Repository\User;
+namespace PhpChallenge\Infra\Repository\User;
 
 use Doctrine\DBAL\Connection;
 use PhpChallenge\Domain\User\Data\CreatedUserData;
