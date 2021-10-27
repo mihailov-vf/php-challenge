@@ -127,5 +127,5 @@ return [
         return $connection instanceof Doctrine\DBAL\Driver\PDO\Connection ? $connection->getWrappedConnection() : null;
     },
 
-    'PhpChallenge\Domain\*\*Repository' => autowire('PhpChallenge\Infra\Database\Repository\*\*DbalRepository'),
+    'PhpChallenge\Domain\*\*Repository' => autowire('PhpChallenge\Infra\Repository\*\*DbalRepository'),
 ];

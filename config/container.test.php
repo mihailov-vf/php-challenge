@@ -8,8 +8,8 @@ use Psr\Container\ContainerInterface;
 
 $container = require 'container.php';
 
-$container['settings'] = function () {
-    return require __DIR__ . '/settings.test.php';
+$container[Config::class] = function () {
+    return new Config(require __DIR__ . '/settings.test.php');
 };
 
 $container[Connection::class] = function (ContainerInterface $container) {
