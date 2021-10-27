@@ -8,7 +8,7 @@ use InvalidArgumentException;
 
 final class Uuid extends StringValue
 {
-    public static function create(): string
+    public static function createUuidString(): string
     {
         return uuid_create(UUID_TYPE_RANDOM);
     }
@@ -16,7 +16,7 @@ final class Uuid extends StringValue
     public function __construct(private ?string $value = null)
     {
         if (!$value) {
-            $value = self::create();
+            $value = self::createUuidString();
         }
         if (!uuid_is_valid($value)) {
             throw new InvalidArgumentException('Invalid UUID value');

@@ -21,7 +21,7 @@ class User extends Entity
 
     public static function createNewFromData(CreateNewUserData $data): self
     {
-        $user = new User(Uuid::create(), $data->email, $data->name, $data->password);
+        $user = new User(Uuid::createUuidString(), $data->email, $data->name, $data->password);
         $user->token = AccessToken::createToken();
         $user->createdAt = new DateTimeImmutable();
         return $user;
