@@ -9,6 +9,7 @@ use Fig\Http\Message\StatusCodeInterface;
 use PhpChallenge\Tests\Traits\DbalDatabaseTestTrait;
 use PHPUnit\Framework\TestCase;
 
+/** @coversNothing */
 class CreateUserActionTest extends TestCase
 {
     use AppTestTrait;

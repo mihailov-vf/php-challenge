@@ -22,6 +22,8 @@ final class ContainerFactory
 
         // Set up settings
         $containerBuilder->addDefinitions(dirname(__DIR__) . '/config/container.test.php');
+        $containerBuilder->useAnnotations(true);
+        $containerBuilder->useAutowiring(true);
 
         // Build PHP-DI Container instance
         return $containerBuilder->build();

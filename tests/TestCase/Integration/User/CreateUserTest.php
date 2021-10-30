@@ -7,11 +7,11 @@ namespace PhpChallenge\Tests\TestCase\Integration\User;
 use PhpChallenge\Domain\User\Data\CreatedUserData;
 use PhpChallenge\Domain\User\Data\CreateNewUserData;
 use PhpChallenge\Domain\User\Service\CreateUser;
-use PhpChallenge\Domain\User\User;
 use PhpChallenge\Domain\User\UserRepository;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
 
+/** @coversNothing */
 class CreateUserTest extends TestCase
 {
     private CreateUser $createUserService;

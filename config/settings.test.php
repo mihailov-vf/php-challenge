@@ -2,6 +2,8 @@
 
 $settings = require 'settings.php';
 
+$settings['fixtures'] = $settings['root'] . '/fixtures';
+
 // Database settings
 $settings['db'] = [
     'driver' => 'pdo_pgsql',
