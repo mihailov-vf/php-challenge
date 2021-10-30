@@ -10,6 +10,9 @@ trait UpdatedAtTimestampableTrait
 {
     protected DateTimeImmutable $updatedAt;
 
+    /**
+     * @codeCoverageIgnore
+     */
     public function getUpdatedAt(): DateTimeImmutable
     {
         return $this->updatedAt;

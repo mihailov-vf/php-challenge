@@ -12,6 +12,6 @@ use Spatie\DataTransferObject\DataTransferObject;
 #[
     DefaultCast(DateTimeImmutable::class, DateTimeCaster::class)
 ]
-class Data extends DataTransferObject
+abstract class Data extends DataTransferObject
 {
 }

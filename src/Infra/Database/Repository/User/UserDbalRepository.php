@@ -21,7 +21,7 @@ class UserDbalRepository implements UserRepository
     {
         $this->connection->insert(
             $this->table,
-            (array)$user->toData(),
+            $user->toData()->toArray(),
             [
                 'created_at' => 'datetimetz_immutable',
                 'enabled' => 'boolean',
@@ -29,16 +29,19 @@ class UserDbalRepository implements UserRepository
         );
     }
 
-    public function findUser(string $id): User
+    public function findUser(string $id): ?User
     {
         $data = $this->connection->createQueryBuilder()
             ->select()
             ->from($this->table)
             ->where('id = :id')
             ->setParameter('id', $id)
-            ->fetchOne();
+            ->fetchAssociative();
+        if (!$data) {
+            return null;
+        }
 
-        return User::createFromData(new CreatedUserData($data));
+        return User::createFromArray($data);
     }
 
     public function checkUserEmailExists(string $email): bool

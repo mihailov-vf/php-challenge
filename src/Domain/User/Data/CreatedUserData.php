@@ -19,7 +19,7 @@ class CreatedUserData extends Data
     public string $email;
     public string $name;
     public string $password;
-    public string $token;
+    public ?string $token;
     public DateTimeImmutable $created_at;
     public bool $enabled;
 }
