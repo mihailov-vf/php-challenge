@@ -7,16 +7,18 @@ namespace PhpChallenge\Domain\User;
 use DateTimeImmutable;
 use PhpChallenge\Common\Object\Entity;
 use PhpChallenge\Common\Object\Uuid;
+use PhpChallenge\Common\Traits\CreatedAtTimestampableTrait;
 use PhpChallenge\Domain\User\Data\CreatedUserData;
 use PhpChallenge\Domain\User\Data\CreateNewUserData;
 
 class User extends Entity
 {
+    use CreatedAtTimestampableTrait;
+
     private string $email;
     private string $name;
     private string $password;
     private ?AccessToken $token;
-    private DateTimeImmutable $createdAt;
     private bool $enabled = true;
 
     public static function createNewFromData(CreateNewUserData $data): self
@@ -74,14 +76,6 @@ class User extends Entity
     public function getToken(): ?AccessToken
     {
         return $this->token;
-    }
-
-    /**
-     * @codeCoverageIgnore
-     */
-    public function getCreatedAt(): DateTimeImmutable
-    {
-        return $this->createdAt;
     }
 
     /**
