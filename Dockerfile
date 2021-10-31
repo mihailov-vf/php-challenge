@@ -14,14 +14,17 @@ RUN composer install -o \
 
 FROM php:8.0-fpm
 
-# Install Postgres client
+# Install Postgres client & Zip deps
 RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
     && apt-get install -y libpq-dev postgresql-client \ 
+    && apt-get install -y libzip-dev \
     && apt-get clean -y && rm -rf /var/lib/apt/lists/*
 
-# Add openssl?
 RUN docker-php-ext-install pdo pdo_pgsql
 RUN docker-php-ext-install opcache
+RUN docker-php-ext-install sockets
+RUN docker-php-ext-install zip
+
 RUN pecl install -s apcu \
     && docker-php-ext-enable apcu
 

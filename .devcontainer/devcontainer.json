@@ -15,6 +15,7 @@
 	"extensions": [
 		"felixfbecker.php-debug",
 		"bmewburn.vscode-intelephense-client",
+		"swordev.phpstan",
 		"blanc-frederic.vs-phpcompanion",
 		"recca0120.vscode-phpunit",
 		"humao.rest-client",
@@ -22,7 +23,7 @@
 	],
 
 	// For use with PHP or Apache (e.g.php -S localhost:8080 or apache2ctl start)
-	"forwardPorts": [8080, 5432],
+	"forwardPorts": [8080],
 
 	// Use 'postCreateCommand' to run commands after the container is created.
 	// "postCreateCommand": "sudo chmod a+x \"$(pwd)\" && sudo rm -rf /var/www/html && sudo ln -s \"$(pwd)\" /var/www/html"

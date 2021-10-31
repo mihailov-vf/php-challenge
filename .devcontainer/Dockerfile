@@ -2,13 +2,16 @@
 ARG VARIANT=7-bullseye
 FROM mcr.microsoft.com/vscode/devcontainers/php:0-${VARIANT}
 
-# Install Postgres client
+# Install Postgres client & Zip deps
 RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
     && apt-get install -y libpq-dev postgresql-client \ 
+    && apt-get install -y libzip-dev \
     && apt-get clean -y && rm -rf /var/lib/apt/lists/*
 
 RUN docker-php-ext-install pdo pdo_pgsql
 RUN docker-php-ext-install opcache
+RUN docker-php-ext-install sockets
+RUN docker-php-ext-install zip
 
 # [Choice] Node.js version: none, lts/*, 16, 14, 12, 10
 ARG NODE_VERSION="none"

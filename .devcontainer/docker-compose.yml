@@ -43,6 +43,13 @@ services:
       - ../.docker/entrypoint/initdb.sh:/docker-entrypoint-initdb.d/initdb.sh
       - postgres-data:/data/postgres
 
+  files:
+    image: scireum/s3-ninja
+    container_name: files
+    restart: unless-stopped
+    ports:
+      - "9444:9000"
+
     # Add "forwardPorts": ["5432"] to **devcontainer.json** to forward postgres locally.
     # (Adding the "ports" property to this file will not forward from a Codespace.)
   
