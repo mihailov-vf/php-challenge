@@ -1,0 +1,28 @@
+version: '3.8'
+
+services: 
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    init: true
+    ports:
+      - "8000:8000"
+    depends_on:
+      - "database"
+
+  database:
+    image: postgres
+    container_name: postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_PASSWORD: postgres
+      PGDATA: /data/postgres
+    ports:
+      - "5432:5432"
+    volumes:
+      - .docker/entrypoint/initdb.sh:/docker-entrypoint-initdb.d/initdb.sh
+      - postgres-data:/data/postgres
+  
+volumes:
+  postgres-data:

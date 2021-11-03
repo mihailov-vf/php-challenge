@@ -20,7 +20,7 @@ Este projeto tem como objetivo aplicar boas praticas de desenvolvimento em aplic
  - [x] PHP 8
  - [ ] RoadRunner Server
  - [x] Slim Micro-Framework
- - [X] PostgreSQL
+ - [x] PostgreSQL
  - [ ] Armazenamento de arquivos AWS S3 (s3-ninja para ambiente local)
  - [ ] Filas e mensageria com RabbitMQ
  - [ ] Autenticação e autorização com Keyclock
@@ -33,3 +33,19 @@ Este projeto tem como objetivo aplicar boas praticas de desenvolvimento em aplic
  - [x] Testes Unitários, Integração e Funcionais: PHPUnit
  - [ ] Documentação API: swagger-php
 ---------
+
+## Inicialização
+Execute os comandos
+
+
+```
+docker-compose up -d
+docker-compose exec app .docker/run/prepare.sh
+```
+
+
+A API estará disponível através da porta 8000, com os seguintes caminhos disponíveis:
+- GET   http://localhost:8000/ - [WIP] Documentação da API(Swagger)
+- POST  http://localhost:8000/api/users/ - Criação de usuários
+- POST  http://localhost:8000/api/import/ - [WIP] Importação CSV
+- GET   http://localhost:8000/api/import/{ID} - [WIP] Status da importação
